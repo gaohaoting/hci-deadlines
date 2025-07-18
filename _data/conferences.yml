@@ -91,8 +91,20 @@
   timezone: UTC-12
   place: Abu Dhabi, United Arab Emirates
   date: March, 12-20, 2025
-  start: 2025-03-16
-  end: 2025-03-25
+  start: 2025-03-12
+  end: 2025-03-20
+  sub: HCI
+
+- title: Augmented Humans
+  year: 2026
+  id: ah26
+  link: https://augmented-humans.org/calls-for-participation/
+  deadline: '2025-11-18 23:59:59'
+  timezone: UTC-12
+  place: Okinawa, Japan
+  date: March, 16-19, 2026
+  start: 2026-03-16
+  end: 2026-03-19
   sub: HCI
 
 - title: AutoUI
@@ -196,7 +208,7 @@
   place: Barcelona, Spain
   date: April, 13-17, 2026
   start: 2026-04-13
-  end: 2025-04-17
+  end: 2026-04-17
   sub: HCI
 
 - title: CHI PLAY
@@ -464,6 +476,45 @@
   end: 2025-06-28
   sub: HCI
 
+- title: EICS PACM (Round 1)
+  year: 2026
+  id: eics26_1
+  full_name: Symposium on Engineering Interactive Computing Systems
+  link: https://eics.acm.org/2026/
+  deadline: '2025-07-25 23:59:59'
+  timezone: UTC-12
+  place: Patras, Greece
+  date: June 30 - July 3, 2026
+  start: 2026-06-30
+  end: 2026-07-03
+  sub: HCI
+
+- title: EICS PACM (Round 2)
+  year: 2026
+  id: eics26_2
+  full_name: Symposium on Engineering Interactive Computing Systems
+  link: https://eics.acm.org/2026/
+  deadline: '2025-10-24 23:59:59'
+  timezone: UTC-12
+  place: Patras, Greece
+  date: June 30 - July 3, 2026
+  start: 2026-06-30
+  end: 2026-07-03
+  sub: HCI
+
+- title: EICS PACM (Round 3)
+  year: 2026
+  id: eics26_3
+  full_name: Symposium on Engineering Interactive Computing Systems
+  link: https://eics.acm.org/2026/
+  deadline: '2026-02-13 23:59:59'
+  timezone: UTC-12
+  place: Patras, Greece
+  date: June 30 - July 3, 2026
+  start: 2026-06-30
+  end: 2026-07-03
+  sub: HCI
+
 - title: evoMUSART
   year: 2025
   id: evomusart25
@@ -479,6 +530,20 @@
   paperslink: https://evomusart-index.dei.uc.pt/
   sub: ['AI', 'DES', 'VIS', 'CSCW']
   note: part of evostar 2025
+
+- title: evoMUSART
+  year: 2026
+  id: evomusart26
+  full_name: evomusart 2026
+  link: https://www.evostar.org/2026/evomusart/
+  deadline: 2025-11-01 23:59
+  timezone: UTC-12
+  place: Toulouse, France
+  date: April, 8-10, 2026
+  start: 2026-04-08
+  end: 2026-04-10
+  sub: ['AI', 'DES', 'VIS', 'CSCW']
+  note: part of evostar 2026
 
 - title: FAccT
   year: 2023
@@ -923,6 +988,19 @@
   sub: HCI
 
 - title: IUI
+  year: 2026
+  id: iui26
+  link: https://iui.hosting.acm.org/2026/call-for-papers/
+  deadline: '2025-10-10 23:59:59'
+  abstract_deadline: '2025-10-03 23:59:59'
+  timezone: UTC-12
+  place: Paphos, Cyprus
+  date: March 23-26, 2026
+  start: 2026-03-23
+  end: 2026-03-26
+  sub: HCI
+
+- title: IUI
   year: 2025
   id: iui25
   link: https://iui.acm.org/2025/call_for_papers.html
@@ -1013,6 +1091,21 @@
   date: April, 22-25, 2025
   start: 2025-04-22
   end: 2025-04-25
+  sub: VIS
+  note: Conference paper track
+
+- title: IEEE PacificVis
+  year: 2026
+  id: pacificvis26
+  full_name: IEEE Pacific Visualization Symposium
+  link: https://pacificvis2026.github.io/common-call-for-papers.html
+  deadline: '2025-09-07 23:59:59'
+  abstract_deadline: '2025-09-01 23:59:59'
+  timezone: UTC-12
+  place: Sydney, Australia
+  date: April, 20-23, 2026
+  start: 2026-04-20
+  end: 2026-04-23
   sub: VIS
   note: Conference paper track
 
