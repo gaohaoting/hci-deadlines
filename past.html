@@ -1,4 +1,5 @@
 ---
+permalink: /past/
 ---
 
 <html>
@@ -12,16 +13,43 @@
       <div class="page-header">
         <div class="row">
           <div class="col-12 col-sm-12">
-            <h1>{{ site.title }}</h1>
+            <h1>Past Deadlines</h1>
           </div>
           <div class="meta col-12">
-            {{ site.description }}. To add/edit a conference,
+            Conference deadlines that have already passed. To add/edit a conference,
             <a
               target="_blank"
               href="//github.com/{{ site.github_username }}/{{ site.github_repo_confdatabase }}"
               >send in a pull request</a
             >.
           </div>
+        </div>
+        <br />
+        <div class="row">
+          <form class="container">
+            <div class="row justify-content-center">
+              <div class="row align-items-md-center col-12 col-10-md">
+                <div class="col-12 col-md-5 filter-label">
+                  <label
+                    for="year-select"
+                    class="align-center"
+                    style="margin-bottom: 0px; line-height: 1.5"
+                  >
+                    Year Filter:
+                  </label>
+                </div>
+                <div class="col-12 col-md-6">
+                  <select
+                    id="year-select"
+                    name="year-select"
+                    class="form-control"
+                  >
+                    <option value="all">All Years</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
         <br />
         <div class="row">
@@ -63,27 +91,22 @@
               them in conference website timezones, click on them.
             </span>
           </div>
-          <div class="meta col-12">
-            You can optionally export all deadlines to
-            <a
-              href="https://calendar.google.com/calendar/r?cid={{ site.url }}/hci-deadlines.ics"
-              >Google Calendar</a
-            >
-            or <a href="/hci-deadlines.ics">.ics</a>.
-          </div>
         </div>
       </div>
       <div id="confs">
-        <!-- Show only the conferences in the current year -->
-        <!-- Current year is a number (hence plus 0 for convertion)-->
-        {% assign year= "now" | date: "%Y" | plus: 0 %}
-        <div id="coming_confs">
+        <!-- Collect all past conferences regardless of year -->
+        <div id="past_confs">
+          <div id="sort-order-checkbox">
+            <label for="sort-order"
+              ><input type="checkbox" id="sort-order" name="sort-order" />Sort Z-A</label
+            >
+          </div>
           {% for conf in site.data.conferences %}
-          <!-- Show this year or future events (year is computed above) -->
-          {% if conf.year >= year %}
           <div
             id="{{conf.id}}"
             class="ConfItem {% for sub in conf.sub %} {{sub}}-conf {% endfor %}"
+            data-year="{{conf.year}}"
+            style="display: none;"
           >
             <div class="row conf-row">
               <div class="col-6">
@@ -146,8 +169,7 @@
                 </span>
               </div>
               <div class="col-6">
-                <span class="timer"></span>
-                <span class="timer-small"></span>
+                <span class="deadline"></span>
               </div>
             </div>
             <div class="row">
@@ -181,7 +203,6 @@
                     <span class="deadline-time"></span>
                   </div>
                 </div>
-                <div class="calendar"></div>
               </div>
             </div>
             <div class="row">
@@ -197,7 +218,7 @@
             </div>
             <hr />
           </div>
-          {% endif %} {% endfor %}
+          {% endfor %}
         </div>
       </div>
       <footer>{% include footer.html %}</footer>
@@ -225,99 +246,174 @@
           $('.local-timezone-hide').hide();
         }
 
+        // Collect unique years
+        var years = new Set();
+
         {% for conf in site.data.conferences %}
         {% for sub in conf.sub %}
         $('#{{conf.id}} .{{sub}}-tag').html(sub2name["{{sub}}"].toLocaleLowerCase());
         {% endfor %}
         {% if conf.deadline == "TBA" %}
-        $('#{{conf.id}} .timer').html("TBA");
         $('#{{conf.id}} .deadline-time').html("TBA");
         {% else %}
         // adjust date according to deadline timezone
         var timezone = {% if conf.timezone %}"{{conf.timezone}}" {% else %} "America/New_York" {% endif %};
-      var confDate = moment.tz("{{conf.deadline}}", timezone);
-      var abstractDeadline = null;
-      {% if conf.abstract_deadline %}
-      abstractDeadline = moment.tz("{{conf.abstract_deadline}}", timezone);
-      {% endif %}
+        var confDate = moment.tz("{{conf.deadline}}", timezone);
+        var abstractDeadline = null;
+        {% if conf.abstract_deadline %}
+        abstractDeadline = moment.tz("{{conf.abstract_deadline}}", timezone);
+        {% endif %}
 
-      // render countdown timer
-      $('#{{conf.id}} .timer').countdown(confDate.toDate(), function (event) {
-        $(this).html(event.strftime('%D days %Hh %Mm %Ss'));
-      });
-
-      // render countdown timer small
-      $('#{{conf.id}} .timer-small').countdown(confDate.toDate(), function (event) {
-        $(this).html(event.strftime('%Dd %H:%M:%S'));
-      });
-
-      // convert deadline to local timezone
-      try {
-        var localConfDate = moment.tz(confDate, local_timezone);
-        $('#{{conf.id}} .deadline-time').html(localConfDate.toString());
-      }
-      catch (err) {
-        console.log("Error converting to local timezone.");
-      }
-
-      // convert abstract deadline to local timezone
-      if (abstractDeadline) {
+        // convert deadline to local timezone
         try {
-          var localAbstractDeadline = moment.tz(abstractDeadline, local_timezone);
-          $('#{{conf.id}} .abstract-deadline-time').html(localAbstractDeadline.toString());
+          var localConfDate = moment.tz(confDate, local_timezone);
+          $('#{{conf.id}} .deadline-time').html(localConfDate.toString());
         }
         catch (err) {
           console.log("Error converting to local timezone.");
         }
-      }
 
-      // add calendar button
-      var myCalendar = createCalendarFromObject({
-        id: '{{conf.id}}',
-        title: '{{conf.title}} {{conf.year}} deadline',
-        date: confDate.toDate(),
-        duration: 60,
-      })
-      document.querySelector('#{{conf.id}} .calendar')?.appendChild(myCalendar);
+        // convert abstract deadline to local timezone
+        if (abstractDeadline) {
+          try {
+            var localAbstractDeadline = moment.tz(abstractDeadline, local_timezone);
+            $('#{{conf.id}} .abstract-deadline-time').html(localAbstractDeadline.toString());
+          }
+          catch (err) {
+            console.log("Error converting to local timezone.");
+          }
+        }
 
-      // check if date has passed, mark it (past deadlines are on separate page)
-      var today = moment();
-      diff = today.diff(confDate);
+        // check if deadline has passed
+        var today = moment();
+        diff = today.diff(confDate);
 
-      $('#{{conf.id}}').attr("diff", diff)
-      if (diff > 0) {
-        // Mark as past deadline - will be hidden on main page
-        $('#{{conf.id}}').addClass('past-deadline');
-      }
-      {% endif %}
-      {% endfor %}
+        $('#{{conf.id}}').attr("diff", diff);
+        
+        if (diff > 0) {
+          // This is a past deadline, add it to the list and collect year
+          $('#{{conf.id}}').addClass('past');
+          years.add({{conf.year}});
+        } else {
+          // Not a past deadline, remove it from DOM
+          $('#{{conf.id}}').remove();
+        }
+        {% endif %}
+        {% endfor %}
 
-      // Sort coming_confs
-      $("#coming_confs .ConfItem").sort(function (a, b) {
-        return $(b).attr('diff') - $(a).attr('diff');
-      }).appendTo($("#coming_confs"));
+        // Populate year dropdown
+        var yearArray = Array.from(years).sort((a, b) => b - a);
+        yearArray.forEach(function(year) {
+          $('#year-select').append($('<option>', {
+            value: year,
+            text: year
+          }));
+        });
 
-      // Hide past deadlines on the main page
-      $('.ConfItem.past-deadline').hide();
+        // Set default year to current year if available, otherwise most recent
+        var currentYear = new Date().getFullYear();
+        if (years.has(currentYear)) {
+          $('#year-select').val(currentYear);
+        } else if (yearArray.length > 0) {
+          $('#year-select').val(yearArray[0]);
+        }
 
-      // Store original update_filtering and override it
-      var original_update_filtering = update_filtering;
-      update_filtering = function(data) {
-        original_update_filtering(data);
-        // Ensure past deadlines stay hidden on main page
-        $('.ConfItem.past-deadline').hide();
-      };
+        // Store original update_filtering
+        var original_update_filtering = update_filtering;
+        
+        // Function to apply both subject and year filters
+        function applyFilters() {
+          var selectedYear = $('#year-select').val();
+          
+          // First apply subject filter using original function
+          original_update_filtering({ subs: subs, all_subs: all_subs });
+          
+          // Then apply year filter on top of subject filter
+          if (selectedYear === 'all') {
+            // Show all past deadlines that match subject filter
+            $('.ConfItem.past').each(function() {
+              var shouldShow = false;
+              for (const s of subs) {
+                if ($(this).hasClass(s + '-conf')) {
+                  shouldShow = true;
+                  break;
+                }
+              }
+              if (shouldShow) {
+                $(this).show();
+              }
+            });
+          } else {
+            // Only show past deadlines for selected year that match subject filter
+            $('.ConfItem.past').hide();
+            $('.ConfItem.past[data-year="' + selectedYear + '"]').each(function() {
+              var shouldShow = false;
+              for (const s of subs) {
+                if ($(this).hasClass(s + '-conf')) {
+                  shouldShow = true;
+                  break;
+                }
+              }
+              if (shouldShow) {
+                $(this).show();
+              }
+            });
+          }
+        }
+        
+        // Function to filter by year
+        function filterByYear() {
+          applyFilters();
+        }
 
-      {% include handle_url_retrieval.js %}
+        // Override update_filtering to work with year filter
+        update_filtering = function(data) {
+          subs = data.subs;  // Update global subs variable
+          applyFilters();
+        };
 
-      // Event handler on sub badge click
-      $('.conf-sub').click(function (e) {
-        var csub = $(this).data('sub');
-        subs = [csub];
-        $("#subject-select").multiselect('deselect', all_subs);
-        $("#subject-select").multiselect('select', subs);
-        update_filtering({ subs: subs, all_subs: all_subs });
-      });
+        // Year filter change handler
+        $('#year-select').on('change', filterByYear);
+
+        // Initial sort alphabetically (A-Z by default)
+        $("#past_confs .ConfItem").sort(function (a, b) {
+          var titleA = $(a).find('.conf-title a').text().toLowerCase();
+          var titleB = $(b).find('.conf-title a').text().toLowerCase();
+          return titleA.localeCompare(titleB);
+        }).appendTo($("#past_confs"));
+
+        {% include handle_url_retrieval.js %}
+
+        // Apply initial filters (after handle_url_retrieval sets subs)
+        applyFilters();
+
+        // Sort order toggle
+        $("#sort-order-checkbox input").on("click", function () {
+          if ($("#sort-order-checkbox input").is(":checked")) {
+            // Sort Z-A
+            $("#past_confs .ConfItem").sort(function (a, b) {
+              var titleA = $(a).find('.conf-title a').text().toLowerCase();
+              var titleB = $(b).find('.conf-title a').text().toLowerCase();
+              return titleB.localeCompare(titleA);
+            }).appendTo($("#past_confs"));
+          } else {
+            // Sort A-Z
+            $("#past_confs .ConfItem").sort(function (a, b) {
+              var titleA = $(a).find('.conf-title a').text().toLowerCase();
+              var titleB = $(b).find('.conf-title a').text().toLowerCase();
+              return titleA.localeCompare(titleB);
+            }).appendTo($("#past_confs"));
+          }
+        });
+
+        // Event handler on sub badge click
+        $('.conf-sub').click(function (e) {
+          var csub = $(this).data('sub');
+          subs = [csub];
+          $("#subject-select").multiselect('deselect', all_subs);
+          $("#subject-select").multiselect('select', subs);
+          update_filtering({ subs: subs, all_subs: all_subs });
+        });
 
       });
     </script>
