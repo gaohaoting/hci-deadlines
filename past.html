@@ -98,7 +98,7 @@ permalink: /past/
         <div id="past_confs">
           <div id="sort-order-checkbox">
             <label for="sort-order"
-              ><input type="checkbox" id="sort-order" name="sort-order" />Sort Z-A</label
+              ><input type="checkbox" id="sort-order" name="sort-order" />Sort by Recent Deadlines</label
             >
           </div>
           {% for conf in site.data.conferences %}
@@ -390,14 +390,14 @@ permalink: /past/
         // Sort order toggle
         $("#sort-order-checkbox input").on("click", function () {
           if ($("#sort-order-checkbox input").is(":checked")) {
-            // Sort Z-A
+            // Sort by most recent deadlines (most recent first)
             $("#past_confs .ConfItem").sort(function (a, b) {
-              var titleA = $(a).find('.conf-title a').text().toLowerCase();
-              var titleB = $(b).find('.conf-title a').text().toLowerCase();
-              return titleB.localeCompare(titleA);
+              var diffA = parseInt($(a).attr('diff'));
+              var diffB = parseInt($(b).attr('diff'));
+              return diffA - diffB;  // Smaller diff = more recent
             }).appendTo($("#past_confs"));
           } else {
-            // Sort A-Z
+            // Sort A-Z (default alphabetical)
             $("#past_confs .ConfItem").sort(function (a, b) {
               var titleA = $(a).find('.conf-title a').text().toLowerCase();
               var titleB = $(b).find('.conf-title a').text().toLowerCase();
