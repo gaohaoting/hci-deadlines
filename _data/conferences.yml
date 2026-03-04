@@ -47,7 +47,7 @@
   date: November, 10-14, 2026
   start: 2026-11-10
   end: 2026-11-14
-  sub: ['HCI', 'MM']
+  sub: ['HCI', 'GM']
   note: Main-track abstract registration deadline March 25.
 
 - title: ASSETS
@@ -664,7 +664,7 @@
   start: 2025-05-26
   end: 2025-05-29
   hindex: 56
-  sub: HCI
+  sub: ['HCI', 'GM']
 
 - title: Graphics Interface (March round)
   year: 2025
@@ -677,33 +677,33 @@
   start: 2025-05-26
   end: 2025-05-29
   hindex: 56
-  sub: HCI
+  sub: ['HCI', 'GM']
 
 - title: Graphics Interface (January round)
   year: 2026
   id: gi26jan
   link: https://conferences.graphicsinterface.org/2026/
-  deadline: "2026-01-30 23:59:59"
+  deadline: '2026-01-30 23:59:59'
   timezone: UTC-12
   place: Kitchner-Waterloo, Ontario, Canada
   date: June, 09-12, 2026
   start: 2026-06-09
   end: 2026-06-12
   hindex: 56
-  sub: HCI
+  sub: ['HCI', 'GM']
 
 - title: Graphics Interface (April round)
   year: 2026
   id: gi26apr
   link: https://conferences.graphicsinterface.org/2026/
-  deadline: "2026-04-03 23:59:59"
+  deadline: '2026-04-03 23:59:59'
   timezone: UTC-12
   place: Kitchner-Waterloo, Ontario, Canada
   date: June, 09-12, 2026
   start: 2026-06-09
   end: 2026-06-12
   hindex: 56
-  sub: HCI
+  sub: ['HCI', 'GM']
 
 - title: GROUP (second wave)
   year: 2025
@@ -1294,6 +1294,36 @@
   end: 2026-04-23
   sub: VIS
   note: Conference paper track
+
+- title: ACM SIGGRAPH
+  year: 2026
+  id: siggraph26
+  full_name: ACM SIGGRAPH Conference and Exhibition on Computer Graphics and Interactive Techniques
+  link: https://s2026.siggraph.org/
+  deadline: '2026-01-22 10:00:00'
+  abstract_deadline: '2026-01-15 10:00:00'
+  timezone: UTC-12
+  place: Los Angeles, CA, USA
+  date: July, 19-23, 2026
+  start: 2026-07-19
+  end: 2026-07-23
+  sub: ['HCI', 'GM']
+  note: Technical Papers deadlines are announced as January 15/22, 2026 at 22:00 UTC (stored here in UTC-12 equivalent).
+
+- title: ACM SIGGRAPH Asia
+  year: 2025
+  id: siggraphasia25
+  full_name: ACM SIGGRAPH Asia Conference and Exhibition on Computer Graphics and Interactive Techniques in Asia
+  link: https://asia.siggraph.org/2025/submissions/technical-papers/
+  deadline: '2025-05-23 23:59:59'
+  abstract_deadline: '2025-05-16 23:59:59'
+  timezone: UTC-12
+  place: Hong Kong
+  date: December, 15-18, 2025
+  start: 2025-12-15
+  end: 2025-12-18
+  sub: ['HCI', 'GM']
+  note: Technical Papers form deadline May 16, 2025; full PDF/assets deadline May 23, 2025.
 
 - title: SUI
   year: 2023
