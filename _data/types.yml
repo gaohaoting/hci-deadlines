@@ -26,6 +26,6 @@
 - name: Security and Privacy
   sub: SP
   color: '#a43208'
-- name: Multimedia
-  sub: MM
+- name: Graphics and Multimedia
+  sub: GM
   color: '#a40208'
