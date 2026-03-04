@@ -366,10 +366,12 @@
   year: 2026
   id: cscw26
   link: https://cscw.acm.org/2026/papers.html
-  deadline: '2025-05-13 23:59:59'
+  deadline: '2025-05-14 04:00:00'
   timezone: UTC-12
-  place: TBA
-  date: TBA
+  place: Salt Lake City, Utah, USA
+  date: October, 10-14, 2026
+  start: 2026-10-10
+  end: 2026-10-14
   sub: CSCW
 
 - title: CUI
@@ -828,6 +830,21 @@
   start: 2026-07-1
   end: 2026-07-4
   sub: HRI
+
+- title: ACM IDC
+  year: 2026
+  id: idc26
+  full_name: ACM Interaction Design and Children
+  link: https://idc.acm.org/2026/
+  deadline: '2026-01-27 23:59:59'
+  abstract_deadline: '2026-01-20 23:59:59'
+  timezone: UTC-12
+  place: Brighton, UK
+  date: June, 22-25, 2026
+  start: 2026-06-22
+  end: 2026-06-25
+  sub: ['HCI', 'DES']
+  note: Full/Short Papers deadlines are Jan 20, 2026 (abstract) and Jan 27, 2026 (submission), AoE.
 
 - title: Ubicomp/ISWC (IMWUT Issue 1)
   year: 2023
