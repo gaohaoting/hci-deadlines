@@ -844,7 +844,6 @@
   start: 2026-06-22
   end: 2026-06-25
   sub: ['HCI', 'DES']
-  note: 'Full/Short Papers deadlines are Jan 20, 2026 (abstract) and Jan 27, 2026 (submission), AoE.'
 
 - title: Ubicomp/ISWC (IMWUT Issue 1)
   year: 2023
@@ -1006,7 +1005,6 @@
   start: 2026-06-09
   end: 2026-06-11
   sub: ['HCI', 'GM']
-  note: 'Paper-track submission deadline extended from Jan 15 to Jan 22, 2026; all deadlines are AoE.'
 
 - title: ISMAR (Journal Papers)
   year: 2023
