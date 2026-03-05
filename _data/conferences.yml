@@ -1263,6 +1263,21 @@
   end: 2026-09-03
   sub: HCI
 
+- title: NIME
+  year: 2026
+  id: nime26
+  full_name: International Conference on New Interfaces for Musical Expression
+  link: https://nime2026.org/
+  deadline: '2026-02-12 23:59:59'
+  abstract_deadline: '2026-02-05 23:59:59'
+  timezone: UTC-12
+  place: London, UK
+  date: June, 23-26, 2026
+  start: 2026-06-23
+  end: 2026-06-26
+  sub: ['HCI', 'ART']
+  note: NIME 2026 abstract deadline Feb 5, 2026 AoE.
+
 - title: IEEE PacificVis
   year: 2024
   id: pacificvis24
