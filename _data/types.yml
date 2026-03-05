@@ -29,3 +29,6 @@
 - name: Graphics and Multimedia
   sub: GM
   color: '#a40208'
+- name: Art & Music
+  sub: ART
+  color: '#ffd395'
