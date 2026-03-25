@@ -1327,6 +1327,20 @@
   sub: ['HCI', 'ART']
   note: NIME 2026 abstract deadline Feb 5, 2026 AoE.
 
+- title: NordiCHI
+  year: 2026
+  id: nordichi22
+  full_name: Nordic Conference on Human-Computer Interaction
+  link: https://sites.uwasa.fi/nordichi2026/
+  deadline: 2026-04-23 23:59
+  abstract_deadline: 2026-04-16 23:59
+  timezone: UTC-12
+  place: Vaasa, Finland
+  date: October, 3-4, 2026
+  start: 2026-10-3
+  end: 2026-10-4
+  sub: HCI
+
 - title: IEEE PacificVis
   year: 2024
   id: pacificvis24
