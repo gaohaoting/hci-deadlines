@@ -34,23 +34,52 @@ function update_filtering(data) {
   }
 }
 
+function formatCalendarTime(date) {
+  return date.toISOString().replace(/-|:|\.\d+/g, "");
+}
+
+function buildGoogleCalendarUrl(event) {
+  var start = formatCalendarTime(event.start);
+  var durationMs = (event.duration || 60) * 60000;
+  var end = event.end
+    ? formatCalendarTime(event.end)
+    : formatCalendarTime(new Date(event.start.getTime() + durationMs));
+  return encodeURI(
+    [
+      "https://www.google.com/calendar/render",
+      "?action=TEMPLATE",
+      "&text=" + (event.title || ""),
+      "&dates=" + start + "/" + end,
+      "&details=" + (event.description || ""),
+      "&location=" + (event.address || ""),
+    ].join("")
+  );
+}
+
 function createCalendarFromObject(data) {
-  return createCalendar({
-    options: {
-      class: "calendar-obj",
+  var base = "{{ site.baseurl }}";
+  var wrap = document.createElement("div");
+  wrap.className = "add-to-calendar calendar-obj";
+  if (data.id) {
+    wrap.id = data.id;
+  }
 
-      // You can pass an ID. If you don't, one will be generated for you
-      id: data.id,
-    },
-    data: {
-      // Event title
-      title: data.title,
-
-      // Event start date
-      start: data.date,
-
-      // Event duration
-      duration: 60,
-    },
+  var googleUrl = buildGoogleCalendarUrl({
+    title: data.title || "",
+    start: data.date,
+    duration: data.duration || 60,
+    description: data.description || "",
+    address: data.address || "",
   });
+
+  var iconSrc = base + "/static/img/calendar.png";
+  wrap.innerHTML =
+    '<a class="cal-add-btn" href="' +
+    googleUrl +
+    '" target="_blank" rel="noopener" title="Add to Google Calendar">' +
+    '<img src="' +
+    iconSrc +
+    '" alt="" class="cal-add-icon" width="20" height="20"> Google</a>';
+
+  return wrap;
 }
