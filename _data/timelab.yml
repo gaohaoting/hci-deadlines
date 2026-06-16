@@ -35,6 +35,12 @@ venues:
   - id: cscw26
     intent: watch
 
+  - id: sbpbrims26
+    intent: plan
+    tracks:
+      - name: Working Papers
+        deadline: '2026-08-21 23:59:59'
+
   - id: dis26
     intent: watch
 
