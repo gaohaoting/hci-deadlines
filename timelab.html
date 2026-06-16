@@ -86,6 +86,7 @@ permalink: /timelab/
                     {% endif %}
                   </td>
                   <td class="dl">
+                    {% unless entry.tracks_only %}
                     {% if conf.deadline and conf.deadline != "TBA" %}
                       {% if entry.tracks %}<span class="abs-line">Papers</span>{% endif %}
                       {{ conf.deadline | date: "%Y-%m-%d" }}
@@ -93,9 +94,10 @@ permalink: /timelab/
                       {% if conf.abstract_deadline and conf.abstract_deadline != "TBA" %}
                         <div class="abs-line">abstract {{ conf.abstract_deadline | date: "%Y-%m-%d" }}</div>
                       {% endif %}
-                    {% else %}
+                    {% elsif entry.tracks == nil or entry.tracks.size == 0 %}
                       <span class="text-muted">TBA</span>
                     {% endif %}
+                    {% endunless %}
                     {% if entry.tracks %}
                       {% for track in entry.tracks %}
                         <div class="track-line">
@@ -119,10 +121,12 @@ permalink: /timelab/
                     {% endif %}
                     {% assign has_cal_btn = false %}
                     {% if show_cal %}
+                      {% unless entry.tracks_only %}
                       {% if conf.deadline and conf.deadline != "TBA" %}
                         {% assign has_cal_btn = true %}
                         <div class="calendar" id="cal-{{ conf.id }}-deadline"></div>
                       {% endif %}
+                      {% endunless %}
                       {% if entry.tracks %}
                         {% for track in entry.tracks %}
                           {% if track.deadline %}
@@ -196,6 +200,7 @@ permalink: /timelab/
             {% assign show_cal = false %}
           {% endif %}
           {% if show_cal and conf.deadline and conf.deadline != "TBA" %}
+          {% unless entry.tracks_only %}
       (function () {
         var tz = {% if conf.timezone %}"{{ conf.timezone }}"{% else %}"UTC-12"{% endif %};
         var confDate = moment.tz("{{ conf.deadline }}", tz);
@@ -208,6 +213,7 @@ permalink: /timelab/
           }));
         }
       })();
+          {% endunless %}
           {% endif %}
           {% if show_cal and entry.tracks %}
             {% for track in entry.tracks %}

@@ -10,7 +10,8 @@
 #                   submitted = 已提交  |  plan = 计划投稿
 #                   watch = 观察跟进    |  tbd = 待定
 #   calendar      - optional; set false to hide the Google Calendar button
-#   tracks        - optional extra submission tracks (name + deadline, AoE = UTC-12)
+#   tracks        - optional submission tracks (name + deadline, AoE = UTC-12)
+#   tracks_only   - optional; if true, show only tracks (hide main papers deadline row)
 #   note          - optional free-form personal note
 #
 # To add a venue: find its id in conferences.yml and add an entry below.
@@ -37,9 +38,10 @@ venues:
 
   - id: sbpbrims26
     intent: plan
+    tracks_only: true
     tracks:
-      - name: Working Papers
-        deadline: '2026-08-21 23:59:59'
+      - name: Full Paper
+        deadline: '2026-06-22 23:59:59'
 
   - id: dis26
     intent: watch
