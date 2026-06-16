@@ -6,48 +6,34 @@
 #
 # Fields you maintain HERE (not in conferences.yml):
 #   id            - must match an `id` in _data/conferences.yml
-#   intent        - submit | attend | skip   (rendered as 🎯 / 👀 / —)
-#   notification  - acceptance-notification date, or "TBD"
-#   camera_ready  - camera-ready / final-version date, or "TBD"
+#   intent        - submitted | plan | watch | tbd
+#                   submitted = 已提交  |  plan = 计划投稿
+#                   watch = 观察跟进    |  tbd = 待定
+#   calendar      - optional; set false to hide the Google Calendar button
 #   note          - optional free-form personal note
 #
 # To add a venue: find its id in conferences.yml and add an entry below.
 
 title: "TIME Lab — HCI Venue Calendar 2026–2027"
 intro: >-
-  Venues I'm tracking for the 2026–2027 cycle. Submission deadlines and conference
-  dates come live from the conference database; intentions, notification and
-  camera-ready dates are maintained in _data/timelab.yml.
+  TIME Lab HCI Venue Calendar 2026–2027.
 
-# intent/notification/camera_ready below are starting placeholders — edit freely.
 venues:
   - id: chi27
-    intent: submit
-    notification: TBD
-    camera_ready: TBD
-    note: "Primary target. Full paper deadline 2026-09-10 (AoE). Align with Popov on ReadGaze / CHI2027 direction."
+    intent: plan
+    note: "Primary target. Full paper deadline 2026-09-10 (AoE)."
 
   - id: uist26
-    intent: submit
-    notification: TBD
-    camera_ready: TBD
+    intent: plan
 
   - id: cscw26
-    intent: attend
-    notification: TBD
-    camera_ready: TBD
+    intent: watch
 
   - id: dis26
-    intent: attend
-    notification: TBD
-    camera_ready: TBD
+    intent: watch
 
   - id: assets26
-    intent: attend
-    notification: TBD
-    camera_ready: TBD
+    intent: tbd
 
   - id: vrst26
-    intent: attend
-    notification: TBD
-    camera_ready: TBD
+    intent: tbd

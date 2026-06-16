@@ -9,7 +9,7 @@ permalink: /timelab/
       #timelab-table th, #timelab-table td { vertical-align: middle; }
       #timelab-table td.dl { white-space: nowrap; }
       .intent-badge { font-size: 0.85rem; }
-      .row-skip { opacity: 0.45; }
+      .row-muted { opacity: 0.55; }
       .sub-tag {
         display: inline-block; padding: 1px 7px; border-radius: 4px;
         font-size: 0.72rem; color: #222; font-weight: 600;
@@ -19,6 +19,8 @@ permalink: /timelab/
       .days-past { color: #868e96; font-weight: 400; }
       .timelab-intro { color: #555; max-width: 760px; }
       .abs-line { font-size: 0.75rem; color: #868e96; }
+      .timelab-calendar .calendar-obj { font-size: 0.8rem; }
+      .timelab-calendar .icon-google { white-space: nowrap; }
     </style>
   </head>
 
@@ -33,9 +35,9 @@ permalink: /timelab/
           <div class="meta col-12">
             <p class="timelab-intro">{{ site.data.timelab.intro }}</p>
             <p class="timelab-intro">
-              🎯 = planning to submit &nbsp;·&nbsp; 👀 = attend only &nbsp;·&nbsp; — = skip.
-              Edit venues and notification / camera-ready dates in
-              <code>_data/timelab.yml</code>.
+              ✅ Submitted &nbsp;·&nbsp; 🎯 Plan &nbsp;·&nbsp; 👀 Watch &nbsp;·&nbsp; ❓ TBD
+              &nbsp;—&nbsp; edit in <code>_data/timelab.yml</code>
+              (<code>submitted</code> · <code>plan</code> · <code>watch</code> · <code>tbd</code>).
             </p>
           </div>
         </div>
@@ -46,12 +48,11 @@ permalink: /timelab/
           <thead class="thead-dark">
             <tr>
               <th>Venue</th>
-              <th>Intent</th>
+              <th>Status</th>
               <th>Submission</th>
-              <th>Notification</th>
-              <th>Camera-ready</th>
               <th>Conference</th>
               <th>Place</th>
+              <th>Calendar</th>
             </tr>
           </thead>
           <tbody>
@@ -61,7 +62,7 @@ permalink: /timelab/
               {% assign entry = tl | where: "id", conf.id | first %}
               {% if entry %}
                 {% assign type = site.data.types | where: "sub", conf.sub | first %}
-                <tr class="{% if entry.intent == 'skip' %}row-skip{% endif %}">
+                <tr class="{% if entry.intent == 'tbd' %}row-muted{% endif %}">
                   <td>
                     <a href="{{ conf.link }}" target="_blank" rel="noopener">
                       <strong>{{ conf.title }} {{ conf.year }}</strong>
@@ -71,12 +72,16 @@ permalink: /timelab/
                     {% endif %}
                   </td>
                   <td>
-                    {% if entry.intent == "submit" %}
-                      <span class="badge badge-success intent-badge">🎯 Submit</span>
-                    {% elsif entry.intent == "attend" %}
-                      <span class="badge badge-info intent-badge">👀 Attend</span>
+                    {% if entry.intent == "submitted" %}
+                      <span class="badge badge-success intent-badge">✅ Submitted</span>
+                    {% elsif entry.intent == "plan" %}
+                      <span class="badge badge-warning intent-badge">🎯 Plan</span>
+                    {% elsif entry.intent == "watch" %}
+                      <span class="badge badge-info intent-badge">👀 Watch</span>
+                    {% elsif entry.intent == "tbd" %}
+                      <span class="badge badge-secondary intent-badge">❓ TBD</span>
                     {% else %}
-                      <span class="badge badge-secondary intent-badge">— Skip</span>
+                      <span class="badge badge-light intent-badge">{{ entry.intent }}</span>
                     {% endif %}
                   </td>
                   <td class="dl">
@@ -90,14 +95,23 @@ permalink: /timelab/
                       <span class="text-muted">TBA</span>
                     {% endif %}
                   </td>
-                  <td class="dl">{{ entry.notification | default: "TBD" }}</td>
-                  <td class="dl">{{ entry.camera_ready | default: "TBD" }}</td>
                   <td class="dl">{{ conf.date }}</td>
                   <td>{{ conf.place }}</td>
+                  <td class="timelab-calendar">
+                    {% assign show_cal = true %}
+                    {% if entry.calendar == false %}
+                      {% assign show_cal = false %}
+                    {% endif %}
+                    {% if show_cal and conf.deadline and conf.deadline != "TBA" %}
+                      <div class="calendar" id="cal-{{ conf.id }}-deadline"></div>
+                    {% else %}
+                      <span class="text-muted">—</span>
+                    {% endif %}
+                  </td>
                 </tr>
                 {% if entry.note %}
-                  <tr class="{% if entry.intent == 'skip' %}row-skip{% endif %}">
-                    <td colspan="7" class="abs-line" style="border-top: none; padding-top: 0;">
+                  <tr class="{% if entry.intent == 'tbd' %}row-muted{% endif %}">
+                    <td colspan="6" class="abs-line" style="border-top: none; padding-top: 0;">
                       📝 {{ entry.note }}
                     </td>
                   </tr>
@@ -119,13 +133,15 @@ permalink: /timelab/
     </div>
 
     <script type="text/javascript">
+      {% include utils.js %}
+      addUtcTimeZones();
+
       // Fill in "X days left" for each submission deadline using moment (loaded in head).
       (function () {
         var nodes = document.querySelectorAll(".days-left[data-deadline]");
         nodes.forEach(function (el) {
           var raw = el.getAttribute("data-deadline");
           var tz = el.getAttribute("data-tz") || "UTC-12";
-          // conferences.yml stores e.g. "UTC-12"; convert to a fixed-offset moment.
           var m = moment.utc(raw, "YYYY-MM-DD HH:mm:ss");
           var offsetMatch = /UTC([+-]\d{1,2})/.exec(tz);
           if (offsetMatch) {
@@ -142,6 +158,31 @@ permalink: /timelab/
           }
         });
       })();
+
+      // Google Calendar (ouical) buttons for submission deadlines
+      {% for conf in sorted %}
+        {% assign entry = tl | where: "id", conf.id | first %}
+        {% if entry %}
+          {% assign show_cal = true %}
+          {% if entry.calendar == false %}
+            {% assign show_cal = false %}
+          {% endif %}
+          {% if show_cal and conf.deadline and conf.deadline != "TBA" %}
+      (function () {
+        var tz = {% if conf.timezone %}"{{ conf.timezone }}"{% else %}"UTC-12"{% endif %};
+        var confDate = moment.tz("{{ conf.deadline }}", tz);
+        var el = document.querySelector("#cal-{{ conf.id }}-deadline");
+        if (el) {
+          el.appendChild(createCalendarFromObject({
+            id: "{{ conf.id }}-deadline",
+            title: "{{ conf.title }} {{ conf.year }} deadline",
+            date: confDate.toDate(),
+          }));
+        }
+      })();
+          {% endif %}
+        {% endif %}
+      {% endfor %}
     </script>
   </body>
 </html>
