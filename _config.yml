@@ -3,10 +3,9 @@ description: Countdowns to HCI conference deadlines — TimeLab curated view
 author: Andrea Bianchi
 
 domain: 'gaohaoting.github.io'
-# This repo is a PROJECT page (repo name != gaohaoting.github.io), so GitHub
-# serves it from a sub-path. baseurl must match the repo name or every
-# /static and nav link 404s. For local dev, _config.local.yml overrides this to ''.
-baseurl: '/hci-deadlines.github.io'
+# User page (repo named gaohaoting.github.io) served at the domain root, so no
+# sub-path prefix is needed.
+baseurl: ''
 
 # Lab-wide conference filter (see _data/local_filter.yml)
 local_mode: true
