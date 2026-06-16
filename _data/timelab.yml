@@ -10,6 +10,7 @@
 #                   submitted = 已提交  |  plan = 计划投稿
 #                   watch = 观察跟进    |  tbd = 待定
 #   calendar      - optional; set false to hide the Google Calendar button
+#   tracks        - optional extra submission tracks (name + deadline, AoE = UTC-12)
 #   note          - optional free-form personal note
 #
 # To add a venue: find its id in conferences.yml and add an entry below.
@@ -25,6 +26,11 @@ venues:
 
   - id: uist26
     intent: submitted
+    tracks:
+      - name: Demo
+        deadline: '2026-07-10 23:59:59'
+      - name: Doctoral Symposium
+        deadline: '2026-07-10 23:59:59'
 
   - id: cscw26
     intent: watch

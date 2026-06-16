@@ -20,7 +20,8 @@ permalink: /timelab/
       .timelab-intro { color: #555; max-width: 760px; }
       .abs-line { font-size: 0.75rem; color: #868e96; }
       .timelab-calendar .calendar-obj { font-size: 0.8rem; }
-      .timelab-calendar .icon-google { white-space: nowrap; }
+      .track-line { margin-top: 0.35rem; padding-top: 0.35rem; border-top: 1px dashed #dee2e6; }
+      .track-line:first-of-type { border-top: none; padding-top: 0; }
     </style>
   </head>
 
@@ -86,6 +87,7 @@ permalink: /timelab/
                   </td>
                   <td class="dl">
                     {% if conf.deadline and conf.deadline != "TBA" %}
+                      {% if entry.tracks %}<span class="abs-line">Papers</span>{% endif %}
                       {{ conf.deadline | date: "%Y-%m-%d" }}
                       <br><span class="days-left" data-deadline="{{ conf.deadline }}" data-tz="{{ conf.timezone }}"></span>
                       {% if conf.abstract_deadline and conf.abstract_deadline != "TBA" %}
@@ -93,6 +95,19 @@ permalink: /timelab/
                       {% endif %}
                     {% else %}
                       <span class="text-muted">TBA</span>
+                    {% endif %}
+                    {% if entry.tracks %}
+                      {% for track in entry.tracks %}
+                        <div class="track-line">
+                          <strong>{{ track.name }}</strong>
+                          {% if track.deadline %}
+                            {{ track.deadline | date: "%Y-%m-%d" }}
+                            <br><span class="days-left" data-deadline="{{ track.deadline }}" data-tz="{{ conf.timezone }}"></span>
+                          {% else %}
+                            <span class="text-muted">TBA</span>
+                          {% endif %}
+                        </div>
+                      {% endfor %}
                     {% endif %}
                   </td>
                   <td class="dl">{{ conf.date }}</td>
@@ -102,11 +117,24 @@ permalink: /timelab/
                     {% if entry.calendar == false %}
                       {% assign show_cal = false %}
                     {% endif %}
-                    {% if show_cal and conf.deadline and conf.deadline != "TBA" %}
-                      <div class="calendar" id="cal-{{ conf.id }}-deadline"></div>
-                    {% else %}
-                      <span class="text-muted">—</span>
+                    {% assign has_cal_btn = false %}
+                    {% if show_cal %}
+                      {% if conf.deadline and conf.deadline != "TBA" %}
+                        {% assign has_cal_btn = true %}
+                        <div class="calendar" id="cal-{{ conf.id }}-deadline"></div>
+                      {% endif %}
+                      {% if entry.tracks %}
+                        {% for track in entry.tracks %}
+                          {% if track.deadline %}
+                            {% assign has_cal_btn = true %}
+                            <div class="calendar track-cal" id="cal-{{ conf.id }}-track-{{ forloop.index }}"></div>
+                          {% endif %}
+                        {% endfor %}
+                      {% endif %}
                     {% endif %}
+                    {% unless has_cal_btn %}
+                      <span class="text-muted">—</span>
+                    {% endunless %}
                   </td>
                 </tr>
                 {% if entry.note %}
@@ -175,11 +203,29 @@ permalink: /timelab/
         if (el) {
           el.appendChild(createCalendarFromObject({
             id: "{{ conf.id }}-deadline",
-            title: "{{ conf.title }} {{ conf.year }} deadline",
+            title: "{{ conf.title }} {{ conf.year }} papers deadline",
             date: confDate.toDate(),
           }));
         }
       })();
+          {% endif %}
+          {% if show_cal and entry.tracks %}
+            {% for track in entry.tracks %}
+              {% if track.deadline %}
+      (function () {
+        var tz = {% if conf.timezone %}"{{ conf.timezone }}"{% else %}"UTC-12"{% endif %};
+        var confDate = moment.tz("{{ track.deadline }}", tz);
+        var el = document.querySelector("#cal-{{ conf.id }}-track-{{ forloop.index }}");
+        if (el) {
+          el.appendChild(createCalendarFromObject({
+            id: "{{ conf.id }}-track-{{ forloop.index }}",
+            title: "{{ conf.title }} {{ conf.year }} — {{ track.name }}",
+            date: confDate.toDate(),
+          }));
+        }
+      })();
+              {% endif %}
+            {% endfor %}
           {% endif %}
         {% endif %}
       {% endfor %}
