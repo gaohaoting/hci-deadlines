@@ -1,6 +1,7 @@
-# 复制为 _config.local.yml 以启用本地筛选模式
+# 复制为 _config.local.yml 可在本地覆盖站点设置（可选，不会提交到 git）
+# 线上版本使用 _config.yml 中的 local_mode 与 _data/local_filter.yml
+
 local_mode: true
 safe: false
 
-# 可选：修改站点标题，便于区分本地版
 title: "My HCI Deadlines (Local)"

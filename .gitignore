@@ -4,5 +4,4 @@ vendor
 .DS_Store
 .idea
 _config.local.yml
-_data/local_filter.yml
 my-calendar.ics

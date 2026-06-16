@@ -1,4 +1,5 @@
-# 示例筛选配置。线上站点使用同名的 _data/local_filter.yml（已提交到 git）。
+# TimeLab 站点筛选规则（已部署到 GitHub Pages，lab 成员可见）
+#
 # 筛选规则（同时满足）：
 #   subs         - 只保留包含这些学科标签的会议（留空 = 不限学科）
 #   include_ids  - 白名单：只显示这些会议 id（留空 = 不限）
