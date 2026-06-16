@@ -24,7 +24,7 @@ venues:
     note: "Primary target. Full paper deadline 2026-09-10 (AoE)."
 
   - id: uist26
-    intent: plan
+    intent: submitted
 
   - id: cscw26
     intent: watch
