@@ -1,4 +1,4 @@
-# TimeLab — curated HCI venue calendar for 2026–2027.
+# TIME Lab — curated HCI venue calendar for 2026–2027.
 #
 # Each entry references a conference `id` from _data/conferences.yml. The
 # submission/abstract deadline, conference dates, place, link and subject tag are
@@ -13,7 +13,7 @@
 #
 # To add a venue: find its id in conferences.yml and add an entry below.
 
-title: "TimeLab — HCI Venue Calendar 2026–2027"
+title: "TIME Lab — HCI Venue Calendar 2026–2027"
 intro: >-
   Venues I'm tracking for the 2026–2027 cycle. Submission deadlines and conference
   dates come live from the conference database; intentions, notification and

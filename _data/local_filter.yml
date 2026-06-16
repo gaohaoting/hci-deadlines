@@ -1,4 +1,4 @@
-# TimeLab 站点筛选规则（已部署到 GitHub Pages，lab 成员可见）
+# TIME Lab 站点筛选规则（已部署到 GitHub Pages，lab 成员可见）
 #
 # 筛选规则（同时满足）：
 #   subs         - 只保留包含这些学科标签的会议（留空 = 不限学科）
