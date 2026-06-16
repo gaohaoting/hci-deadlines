@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+
+if [[ ! -f "_config.local.yml" ]]; then
+  echo "请先创建本地配置："
+  echo "  cp _config.local.yml.example _config.local.yml"
+  echo "  cp _data/local_filter.yml.example _data/local_filter.yml"
+  exit 1
+fi
+
+if [[ ! -f "_data/local_filter.yml" ]]; then
+  echo "缺少 _data/local_filter.yml，请从 example 复制并编辑筛选条件。"
+  exit 1
+fi
+
+export PATH="/opt/homebrew/opt/ruby@3.1/bin:/opt/homebrew/lib/ruby/gems/3.1.0/bin:${PATH}"
+
+exec bundle exec jekyll serve --livereload --config _config.yml,_config.local.yml "$@"

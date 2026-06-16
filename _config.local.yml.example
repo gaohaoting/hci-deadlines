@@ -1,0 +1,6 @@
+# 复制为 _config.local.yml 以启用本地筛选模式
+local_mode: true
+safe: false
+
+# 可选：修改站点标题，便于区分本地版
+title: "My HCI Deadlines (Local)"

@@ -1,0 +1,36 @@
+{% assign include_conf = true %}
+{% if site.local_mode and site.data.local_filter %}
+  {% assign filt = site.data.local_filter %}
+
+  {% if filt.min_year and conf.year and conf.year < filt.min_year %}
+    {% assign include_conf = false %}
+  {% endif %}
+
+  {% if include_conf and filt.exclude_ids and filt.exclude_ids contains conf.id %}
+    {% assign include_conf = false %}
+  {% endif %}
+
+  {% if include_conf and filt.include_ids and filt.include_ids.size > 0 %}
+    {% unless filt.include_ids contains conf.id %}
+      {% assign include_conf = false %}
+    {% endunless %}
+  {% endif %}
+
+  {% if include_conf and filt.subs and filt.subs.size > 0 %}
+    {% assign conf_subs_joined = conf.sub | join: ',' %}
+    {% assign conf_sub_list = conf_subs_joined | split: ',' %}
+    {% assign sub_match = false %}
+    {% for wanted in filt.subs %}
+      {% for conf_sub in conf_sub_list %}
+        {% assign conf_sub_trim = conf_sub | strip | upcase %}
+        {% assign wanted_trim = wanted | strip | upcase %}
+        {% if conf_sub_trim == wanted_trim %}
+          {% assign sub_match = true %}
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+    {% unless sub_match %}
+      {% assign include_conf = false %}
+    {% endunless %}
+  {% endif %}
+{% endif %}

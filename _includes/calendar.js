@@ -85,6 +85,8 @@ function load_conference_list() {
   // Gather data
   var conf_list_all = [];
   {% for conf in site.data.conferences %}
+    {% include conf_filter.liquid %}
+    {% if include_conf %}
     // add deadlines in red
     conf_list_all.push({
       id: "{{conf.id}}-deadline",
@@ -135,6 +137,7 @@ function load_conference_list() {
         startDate: Date.parse("{{conf.start}}"),
         endDate: Date.parse("{{conf.end}}"),
       });
+    {% endif %}
     {% endif %}
   {% endfor %}
 

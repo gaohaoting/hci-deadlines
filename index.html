@@ -79,6 +79,8 @@
         {% assign year= "now" | date: "%Y" | plus: 0 %}
         <div id="coming_confs">
           {% for conf in site.data.conferences %}
+          {% include conf_filter.liquid %}
+          {% if include_conf %}
           <!-- Show this year or future events (year is computed above) -->
           {% if conf.year >= year %}
           <div
@@ -197,7 +199,9 @@
             </div>
             <hr />
           </div>
-          {% endif %} {% endfor %}
+          {% endif %}
+          {% endif %}
+          {% endfor %}
         </div>
       </div>
       <footer>{% include footer.html %}</footer>
@@ -226,6 +230,8 @@
         }
 
         {% for conf in site.data.conferences %}
+        {% include conf_filter.liquid %}
+        {% if include_conf %}
         {% for sub in conf.sub %}
         $('#{{conf.id}} .{{sub}}-tag').html(sub2name["{{sub}}"].toLocaleLowerCase());
         {% endfor %}
@@ -289,6 +295,7 @@
         // Mark as past deadline - will be hidden on main page
         $('#{{conf.id}}').addClass('past-deadline');
       }
+      {% endif %}
       {% endif %}
       {% endfor %}
 

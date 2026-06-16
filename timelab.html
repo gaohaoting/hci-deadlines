@@ -1,0 +1,147 @@
+---
+permalink: /timelab/
+---
+
+<html>
+  <head>
+    {% include head.html %}
+    <style>
+      #timelab-table th, #timelab-table td { vertical-align: middle; }
+      #timelab-table td.dl { white-space: nowrap; }
+      .intent-badge { font-size: 0.85rem; }
+      .row-skip { opacity: 0.45; }
+      .sub-tag {
+        display: inline-block; padding: 1px 7px; border-radius: 4px;
+        font-size: 0.72rem; color: #222; font-weight: 600;
+      }
+      .days-left { font-weight: 700; }
+      .days-soon { color: #d6336c; }
+      .days-past { color: #868e96; font-weight: 400; }
+      .timelab-intro { color: #555; max-width: 760px; }
+      .abs-line { font-size: 0.75rem; color: #868e96; }
+    </style>
+  </head>
+
+  <body>
+    {% include header.html %}
+    <div class="container">
+      <div class="page-header">
+        <div class="row">
+          <div class="col-12">
+            <h1>{{ site.data.timelab.title }}</h1>
+          </div>
+          <div class="meta col-12">
+            <p class="timelab-intro">{{ site.data.timelab.intro }}</p>
+            <p class="timelab-intro">
+              🎯 = planning to submit &nbsp;·&nbsp; 👀 = attend only &nbsp;·&nbsp; — = skip.
+              Edit venues and notification / camera-ready dates in
+              <code>_data/timelab.yml</code>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table id="timelab-table" class="table table-striped table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th>Venue</th>
+              <th>Intent</th>
+              <th>Submission</th>
+              <th>Notification</th>
+              <th>Camera-ready</th>
+              <th>Conference</th>
+              <th>Place</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% assign tl = site.data.timelab.venues %}
+            {% assign sorted = site.data.conferences | sort: "deadline" %}
+            {% for conf in sorted %}
+              {% assign entry = tl | where: "id", conf.id | first %}
+              {% if entry %}
+                {% assign type = site.data.types | where: "sub", conf.sub | first %}
+                <tr class="{% if entry.intent == 'skip' %}row-skip{% endif %}">
+                  <td>
+                    <a href="{{ conf.link }}" target="_blank" rel="noopener">
+                      <strong>{{ conf.title }} {{ conf.year }}</strong>
+                    </a>
+                    {% if type %}
+                      <br><span class="sub-tag" style="background: {{ type.color }};">{{ conf.sub }}</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if entry.intent == "submit" %}
+                      <span class="badge badge-success intent-badge">🎯 Submit</span>
+                    {% elsif entry.intent == "attend" %}
+                      <span class="badge badge-info intent-badge">👀 Attend</span>
+                    {% else %}
+                      <span class="badge badge-secondary intent-badge">— Skip</span>
+                    {% endif %}
+                  </td>
+                  <td class="dl">
+                    {% if conf.deadline and conf.deadline != "TBA" %}
+                      {{ conf.deadline | date: "%Y-%m-%d" }}
+                      <br><span class="days-left" data-deadline="{{ conf.deadline }}" data-tz="{{ conf.timezone }}"></span>
+                      {% if conf.abstract_deadline and conf.abstract_deadline != "TBA" %}
+                        <div class="abs-line">abstract {{ conf.abstract_deadline | date: "%Y-%m-%d" }}</div>
+                      {% endif %}
+                    {% else %}
+                      <span class="text-muted">TBA</span>
+                    {% endif %}
+                  </td>
+                  <td class="dl">{{ entry.notification | default: "TBD" }}</td>
+                  <td class="dl">{{ entry.camera_ready | default: "TBD" }}</td>
+                  <td class="dl">{{ conf.date }}</td>
+                  <td>{{ conf.place }}</td>
+                </tr>
+                {% if entry.note %}
+                  <tr class="{% if entry.intent == 'skip' %}row-skip{% endif %}">
+                    <td colspan="7" class="abs-line" style="border-top: none; padding-top: 0;">
+                      📝 {{ entry.note }}
+                    </td>
+                  </tr>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <p class="timelab-intro">
+        Tip: export a personal <code>.ics</code> with only these venues via
+        <code>python3 utils/export_calendar.py</code> (uses <code>_data/local_filter.yml</code>).
+      </p>
+
+      <div class="page-header" style="margin-top: 2rem;">
+        {% include footer.html %}
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      // Fill in "X days left" for each submission deadline using moment (loaded in head).
+      (function () {
+        var nodes = document.querySelectorAll(".days-left[data-deadline]");
+        nodes.forEach(function (el) {
+          var raw = el.getAttribute("data-deadline");
+          var tz = el.getAttribute("data-tz") || "UTC-12";
+          // conferences.yml stores e.g. "UTC-12"; convert to a fixed-offset moment.
+          var m = moment.utc(raw, "YYYY-MM-DD HH:mm:ss");
+          var offsetMatch = /UTC([+-]\d{1,2})/.exec(tz);
+          if (offsetMatch) {
+            m = m.utcOffset(parseInt(offsetMatch[1], 10) * 60, true);
+          }
+          var days = m.diff(moment(), "days");
+          if (isNaN(days)) { return; }
+          if (days < 0) {
+            el.textContent = "passed";
+            el.classList.add("days-past");
+          } else {
+            el.textContent = days + " day" + (days === 1 ? "" : "s") + " left";
+            if (days <= 30) { el.classList.add("days-soon"); }
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

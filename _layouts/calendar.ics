@@ -4,6 +4,8 @@ VERSION:2.0
 PRODID:-//{{ site.domain }}//ai-deadlines//EN
 X-PUBLISHED-TTL:PT1H
 {%- for conf in site.data.conferences -%}
+{%- include conf_filter.liquid -%}
+{%- if include_conf -%}
 {% if conf.abstract_deadline and conf.abstract_deadline != "TBA" %}
 BEGIN:VEVENT
 SUMMARY:{{ conf.title }} {{ conf.year }} abstract deadline
@@ -28,4 +30,5 @@ DTSTAMP:{{ site.time | date: "%Y%m%dT%H%M%SZ" }}
 DTSTART;TZID={{ conf.timezone }}:{{ conf.deadline | date: "%Y%m%dT%H%M%S" }}
 {% endif %}END:VEVENT
 {% endif %}
+{%- endif -%}
 {%- endfor -%}END:VCALENDAR

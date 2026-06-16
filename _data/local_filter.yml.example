@@ -1,0 +1,20 @@
+# 复制为 local_filter.yml 后按需修改（该文件已在 .gitignore 中，不会提交到 git）
+#
+# 筛选规则（同时满足）：
+#   subs         - 只保留包含这些学科标签的会议（留空 = 不限学科）
+#   include_ids  - 白名单：只显示这些会议 id（留空 = 不限）
+#   exclude_ids  - 黑名单：排除这些会议 id
+#   min_year     - 只显示该年份及以后的会议
+
+subs:
+  - HCI
+  # - CSCW
+
+# 若只想看特定会议，取消注释并填入 id（可在 conferences.yml 里查 id 字段）
+# include_ids:
+#   - chi2026
+#   - uist2025
+
+exclude_ids: []
+
+min_year: 2025

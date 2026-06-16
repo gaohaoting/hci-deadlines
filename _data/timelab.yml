@@ -1,0 +1,53 @@
+# TimeLab — curated HCI venue calendar for 2026–2027.
+#
+# Each entry references a conference `id` from _data/conferences.yml. The
+# submission/abstract deadline, conference dates, place, link and subject tag are
+# looked up live from there, so they stay correct when the database updates.
+#
+# Fields you maintain HERE (not in conferences.yml):
+#   id            - must match an `id` in _data/conferences.yml
+#   intent        - submit | attend | skip   (rendered as 🎯 / 👀 / —)
+#   notification  - acceptance-notification date, or "TBD"
+#   camera_ready  - camera-ready / final-version date, or "TBD"
+#   note          - optional free-form personal note
+#
+# To add a venue: find its id in conferences.yml and add an entry below.
+
+title: "TimeLab — HCI Venue Calendar 2026–2027"
+intro: >-
+  Venues I'm tracking for the 2026–2027 cycle. Submission deadlines and conference
+  dates come live from the conference database; intentions, notification and
+  camera-ready dates are maintained in _data/timelab.yml.
+
+# intent/notification/camera_ready below are starting placeholders — edit freely.
+venues:
+  - id: chi27
+    intent: submit
+    notification: TBD
+    camera_ready: TBD
+    note: "Primary target. Full paper deadline 2026-09-10 (AoE). Align with Popov on ReadGaze / CHI2027 direction."
+
+  - id: uist26
+    intent: submit
+    notification: TBD
+    camera_ready: TBD
+
+  - id: cscw26
+    intent: attend
+    notification: TBD
+    camera_ready: TBD
+
+  - id: dis26
+    intent: attend
+    notification: TBD
+    camera_ready: TBD
+
+  - id: assets26
+    intent: attend
+    notification: TBD
+    camera_ready: TBD
+
+  - id: vrst26
+    intent: attend
+    notification: TBD
+    camera_ready: TBD
